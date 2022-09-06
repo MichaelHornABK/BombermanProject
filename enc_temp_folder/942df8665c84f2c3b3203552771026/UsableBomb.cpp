@@ -192,7 +192,7 @@ void AUsableBomb::Explode()
 			{
 				if (!playerHit)
 				{
-					BombermanCharacter->TakeDamage(20);
+					BombermanCharacter->playerHealth->TakeDamage(20);
 					playerHit = true;
 				}
 			}

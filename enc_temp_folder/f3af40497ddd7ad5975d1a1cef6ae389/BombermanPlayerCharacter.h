@@ -19,13 +19,10 @@ public:
 
 protected:
 	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 	
 
 public:	
-	virtual void BeginPlay() override;
-
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -41,14 +38,6 @@ public:
 	float GetPlayerHealth();
 	UFUNCTION(BlueprintCallable)
 	float GetPlayerMaxHealth();
-
-	UPROPERTY(EditAnywhere)
-		TSubclassOf<class UPlayerUIWidget> PlayerHUDClass;
-
-	void TakeDamage(float damage);
-
-	UPROPERTY()
-		class UPlayerUIWidget* PlayerHUD;
  private:
 	UPROPERTY()
 		AUsableBomb* UsableBomb;

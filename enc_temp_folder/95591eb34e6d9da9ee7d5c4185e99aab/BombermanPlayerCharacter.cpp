@@ -2,18 +2,13 @@
 
 
 #include "BombermanPlayerCharacter.h"
-#include "PlayerUIWidget.h"
-#include "Blueprint/UserWidget.h"
 #include "HealthComponent.h"
-#include "BombermanPlayerController.h"
 
 // Sets default values
 ABombermanPlayerCharacter::ABombermanPlayerCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	PlayerHUDClass = nullptr;
-	PlayerHUD = nullptr;
 	playerHealth = CreateDefaultSubobject<UHealthComponent>("PlayerHealthComponent");
 }
 
@@ -22,26 +17,6 @@ void ABombermanPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	if (IsLocallyControlled() && PlayerHUDClass)
-	{
-		ABombermanPlayerController* BPC = GetController<ABombermanPlayerController>();
-		check(BPC);
-		PlayerHUD = CreateWidget<UPlayerUIWidget>(BPC, PlayerHUDClass);
-		check(PlayerHUD);
-		PlayerHUD->AddToPlayerScreen();
-		PlayerHUD->SetHealth(playerHealth->GetHealth(), playerHealth->GetMaxHealth());
-	}
-}
-
-void ABombermanPlayerCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
-{
-	if (PlayerHUD)
-	{
-		PlayerHUD->RemoveFromParent();
-		PlayerHUD = nullptr;
-	}
-
-	Super::EndPlay(EndPlayReason);
 }
 
 // Called every frame
@@ -93,13 +68,4 @@ float ABombermanPlayerCharacter::GetPlayerHealth()
 float ABombermanPlayerCharacter::GetPlayerMaxHealth()
 {
 	return playerHealth->GetMaxHealth();
-}
-
-void ABombermanPlayerCharacter::TakeDamage(float damage)
-{
-	playerHealth->TakeDamage(damage);
-	if (PlayerHUD)
-	{
-		PlayerHUD->SetHealth(playerHealth->GetHealth(), playerHealth->GetMaxHealth());
-	}
 }

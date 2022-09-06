@@ -19,11 +19,21 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-	float health;
+	
 public:	
 	// Called every frame
+	UPROPERTY(EditAnywhere)
+	float currentHealth;
+	UPROPERTY(EditAnywhere)
+	float maxHealth;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	float GetHealth() { return health; }
-
+	UFUNCTION(BlueprintCallable)
+	float GetHealth() { return currentHealth; }
+	UFUNCTION(BlueprintCallable)
+	float GetMaxHealth() { return maxHealth; }
+	void SetHealth(float health) { currentHealth = health; }
+	void SetMaxHealth(float health) { maxHealth = health; }
+	void TakeDamage(float damageAmount) { currentHealth -= damageAmount; }
+	 
 		
 };
